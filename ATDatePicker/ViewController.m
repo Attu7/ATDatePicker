@@ -7,8 +7,11 @@
 //
 
 #import "ViewController.h"
+#import "ATDatePicker.h"
 
 @interface ViewController ()
+
+@property (weak, nonatomic) IBOutlet UILabel *dateLabel;
 
 @end
 
@@ -16,7 +19,16 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    // Do any additional setup after loading the view, typically from a nib.
+}
+
+- (IBAction)onClickButton:(UIButton *)sender {
+    __weak typeof(self) weakSelf = self;
+    ATDatePicker *datePicker = [[ATDatePicker alloc] initWithDatePickerMode:UIDatePickerModeDateAndTime DateFormatter:@"yyyy-MM-dd" datePickerFinishBlock:^(NSString *dateString) {
+        weakSelf.dateLabel.text = dateString;
+        NSLog(@"%@", dateString);
+    }];
+    datePicker.maximumDate = [NSDate date];
+    [datePicker show];
 }
 
 - (void)didReceiveMemoryWarning {
